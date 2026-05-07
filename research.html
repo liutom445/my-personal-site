@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research — Hongyi Liu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script src="content.js"></script>
+  <script type="text/babel" src="shared.jsx"></script>
+
+  <script type="text/babel" data-presets="react">
+    function ResearchPage() {
+      const router = useChapterRouter();
+      const r = window.SITE_CONTENT.research;
+
+      return (
+        <div className="page page-enter" data-screen-label="03 Research">
+          <div className="frame">
+            <TopBar active="research" onNavigate={router.go} />
+
+            <header className="inner-head">
+              <div className="chap">{r.chapter} · The Notebook</div>
+              <h1 className="ttl">{r.title}</h1>
+              <p className="standfirst">{r.standfirst}</p>
+              <div className="mono" style={{marginTop:14, color:'var(--ink-2)'}}>
+                ✦ &nbsp; Selected Works · Working Papers · Notes &nbsp; ✦
+              </div>
+            </header>
+
+            <div className="double-rule" style={{margin:'18px 0 0'}}></div>
+
+            {/* Papers */}
+            <section className="research-list">
+              {r.papers.map((p) => (
+                <article key={p.no} className="paper">
+                  <div className="no">{p.no}</div>
+                  <div>
+                    <div className="yr">{p.year} · {p.venue}</div>
+                    <h3>{p.title}</h3>
+                    <div className="auth">{p.coauthors}</div>
+                    <p className="note">{p.note}</p>
+                  </div>
+                  <div className="right">
+                    <span className="chip salmon">{p.tag}</span>
+                    <a className="mono" href="#" style={{color:'var(--ink-2)'}}>read note ↗</a>
+                    <a className="mono" href="#" style={{color:'var(--ink-2)'}}>preprint ↗</a>
+                  </div>
+                </article>
+              ))}
+            </section>
+
+            {/* Coursework */}
+            <div className="section-title">
+              <span className="ln"></span>
+              <h2>Coursework &amp; Notes</h2>
+              <span className="ln"></span>
+            </div>
+            <p className="center muted" style={{maxWidth:640, margin:'0 auto 18px', fontStyle:'italic', fontSize:17}}>
+              Notes from selected courses, kept here for the convenience of the author and any wandering reader.
+            </p>
+            <div className="course-grid">
+              {r.coursework.map((cw, i) => (
+                <div key={i} className="cell">
+                  <div className="code">{cw.code}</div>
+                  <div className="nm">{cw.name}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Tags */}
+            <div className="section-title">
+              <span className="ln"></span>
+              <h2>The Index</h2>
+              <span className="ln"></span>
+            </div>
+            <div className="tag-cloud">
+              {r.tags.map((tag, i) => (
+                <span key={i} className={'chip ' + (i % 2 ? 'teal' : 'salmon')}>{tag}</span>
+              ))}
+            </div>
+
+            <div style={{display:'flex', justifyContent:'space-between', marginTop:50, paddingTop:18, borderTop:'1px solid var(--ink)'}}>
+              <a href="about.html" className="btn" onClick={(e) => router.go(e, 'about.html', 'Chapter I · About')}>← Chapter I · About</a>
+              <a href="index.html" className="btn salmon" onClick={(e) => router.go(e, 'index.html', 'Front Page')}>Front Page →</a>
+            </div>
+
+            <Colophon />
+          </div>
+
+          <div className="pagenum">— Research —</div>
+          <div className="pagenum r">№ 03</div>
+
+          <Curtain active={router.curtainActive} activeLabel={router.curtainLabel} />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('app')).render(<ResearchPage />);
+  </script>
+</body>
+</html>
